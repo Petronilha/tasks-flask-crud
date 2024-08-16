@@ -20,24 +20,28 @@ def create_task():
   task_id_control += 1
   tasks.append(new_task)
   print(tasks)
-  return jsonify({"message": "Nova tarefa criada com sucesso"})
+  return jsonify({"message": "Nova tarefa criada com sucesso", "id": new_task.id})
 
 # Get all tasks
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
+  
   task_list = [task.to_dict() for task in tasks]
   output = {
     "tasks": task_list,
     "total_tasks": len(tasks)
   }
+  
   return jsonify(output)
 
 # Get task by ID
 @app.route('/tasks/<int:id>', methods=['GET'])
 def get_task(id):
+  
   for t in tasks:
     if t.id == id:
       return jsonify(t.to_dict())
+    
   return jsonify({'message': 'Essa tarefa nao existe!'}), 404
 
 # Update task by ID
